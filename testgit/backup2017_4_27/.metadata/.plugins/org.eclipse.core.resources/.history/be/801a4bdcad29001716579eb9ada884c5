@@ -1,0 +1,15 @@
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+import javax.swing.JFrame;
+
+
+public class AddMembers extends JFrame implements ItemListener {
+	protected JCheckBok members = new JCheckBok;
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

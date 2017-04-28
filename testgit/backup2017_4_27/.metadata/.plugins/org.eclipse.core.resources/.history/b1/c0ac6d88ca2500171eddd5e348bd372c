@@ -1,0 +1,21 @@
+import java.awt.AWTEvent;
+import java.awt.event.AWTEventListener;
+
+
+public class regist implements AWTEventListener {
+
+	@Override
+	public void eventDispatched(AWTEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

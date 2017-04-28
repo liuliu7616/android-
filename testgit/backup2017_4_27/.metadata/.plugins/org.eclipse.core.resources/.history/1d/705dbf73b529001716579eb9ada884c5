@@ -1,0 +1,13 @@
+
+public class test {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+String str[]={"123","234","4556566565"};
+System.out.println(str.length);
+	}
+
+}

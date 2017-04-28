@@ -1,0 +1,12 @@
+import java.rmi.Remote;
+import java.rmi.*;
+
+public interface appointmentmeetinginterface extends Remote {
+	
+	public void regist(String uname,String upw)throws RemoteException;
+	public boolean login(String uname,String upw) throws RemoteException;
+	public void add(int roomnum,int remain,String starttime,String endtime,String uname,String describe) throws RemoteException;
+	public void delete(String uname,String upasswords ,int rid) throws RemoteException;
+	//public void change() throws RemoteException;
+	public void query(String uname,String starttime,String endtime) throws RemoteException;
+}

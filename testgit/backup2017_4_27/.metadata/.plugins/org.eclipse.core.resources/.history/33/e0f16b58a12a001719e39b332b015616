@@ -1,0 +1,196 @@
+import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextArea;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+import javax.swing.JFrame;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+
+public class Show extends JFrame implements ActionListener {
+	protected TextField tfstarttime = new TextField(16);
+	protected TextField tfendtime = new TextField(16);
+	protected TextField tfdescribetion = new TextField(20);
+	protected TextField tfroomnumber = new TextField(10);
+	protected TextField tfmenber = new TextField(20);
+	protected Button buttonadd = new Button("添加会议");
+	
+	protected TextField tfname = new TextField(10);
+	protected TextField tfquerystarttime = new TextField(16);
+	protected TextField tfqueryendtime = new TextField(16);
+	protected Button buttonquery = new Button("查询会议");
+	protected TextArea tfshowquery = new TextArea(100,100);
+	
+	protected TextField tfmeetingid = new TextField(10);
+	protected JPasswordField  password =new JPasswordField(10);
+	protected Button buttondelete = new Button("确认删除");
+	
+	Panel panel=new Panel();
+	Panel panel1=new Panel();
+	Panel panel12 =new Panel();
+	Panel panel13 = new Panel();
+	Panel panel2=new Panel();
+	Panel panel21 = new Panel();
+	Panel panel3=new Panel();
+	String username="hello";
+	String[] title={"rid","开始时间","结束时间","标签","成员"};
+	public Show(String name){
+		
+		super("会议室预约系统");
+		username = name;
+		this.setBackground(java.awt.Color.white);
+		this.setBounds(400,200,800,600);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new java.awt.BorderLayout());
+		
+		panel.setLayout(new java.awt.GridLayout(3,1));
+		this.add(panel);
+		
+		panel1.setLayout(new java.awt.FlowLayout());
+		Panel panel11 =new Panel(); 
+		panel1.add(panel11);
+		
+		panel11.add(new Label("开始时间"));
+		panel11.add(tfstarttime);
+		panel11.add(new Label("终止时间"));
+		panel11.add(tfendtime);
+		panel11.add(new Label("房间号"));
+		panel11.add(tfroomnumber);
+		panel12.add(new Label("描述标签"));
+		panel12.add(tfdescribetion);
+		panel1.add(panel12);
+		panel1.add(panel13);
+		panel13.add(new Label("参会人员(空格隔开)"));
+		panel13.add(tfmenber);
+		panel1.add(new Label(""));
+		panel1.add(buttonadd);
+		buttonadd.addActionListener(this);
+		
+		panel2.add(panel21);
+		panel21.add(new Label("姓名"));
+		panel21.add(tfname);
+		panel21.add(new Label("开始时间"));
+		panel21.add(tfquerystarttime);
+		panel21.add(new Label("结束时间"));
+		panel21.add(tfqueryendtime);
+		for(int i=0;i<5;i++){
+			tfshowquery.append(title[i]+"\t");
+		}tfshowquery.append("\n");
+		panel21.add(buttonquery);
+		buttonquery.addActionListener(this);
+		panel2.add(tfshowquery);
+		
+		panel3.add(new Label("会议id"));
+		panel3.add(tfmeetingid);
+		panel3.add(new Label("密码"));
+		panel3.add(password);
+		panel3.add(buttondelete);
+		buttondelete.addActionListener(this);
+		panel.add(panel1);
+		panel.add(panel2);
+		panel.add(panel3);
+		this.setVisible(true);
+	}
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new Show("name");
+	}
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		if(event.getActionCommand()=="添加会议"){
+			String []strArray = tfmenber.getText().split(" ");
+			int length =strArray.length;
+			try{
+				appointmentmeetinginterface rmiai=(appointmentmeetinginterface)
+						Naming.lookup("rmi://localhost:2048/Ram");
+				System.out.print("绑定成功");
+			//	String pws=String.valueOf(pw.getPassword());
+				if(	rmiai.add(Integer.valueOf(tfroomnumber.getText()),length,tfstarttime.getText(),tfendtime.getText(),username,tfdescribetion.getText(),
+						strArray)==true)
+				System.out.println("添加成功！！");
+				//System.out.println(Integer.valueOf(tfroomnumber.getText())+" 	"+(length+1)+"  "+tfstarttime.getText()+tfendtime.getText()+username+tfdescribetion.getText()+
+				//		strArray);
+			}catch(NotBoundException e){
+				e.printStackTrace();
+			}catch(MalformedURLException e){
+				e.printStackTrace();
+			}catch(RemoteException e){
+				e.printStackTrace();
+			}
+		}if(event.getActionCommand()=="确认删除"){
+			try{
+				appointmentmeetinginterface rmiai=(appointmentmeetinginterface)
+						Naming.lookup("rmi://localhost:2048/Ram");
+				System.out.print("绑定成功");
+				if(	rmiai.delete(username,String.valueOf(password.getPassword()),Integer.valueOf(tfmeetingid.getText()))==true)
+				System.out.println("删除成功！！");
+			}catch(NotBoundException e){
+				e.printStackTrace();
+			}catch(MalformedURLException e){
+				e.printStackTrace();
+			}catch(RemoteException e){
+				e.printStackTrace();
+			}
+		}if(event.getActionCommand()=="查询会议"){
+			
+			try{
+				appointmentmeetinginterface rmiai=(appointmentmeetinginterface)
+						Naming.lookup("rmi://localhost:2048/Ram");
+				System.out.print("绑定成功");
+				int define =100;
+				String data[]=new String[define];
+				
+						//System.out.println(rmiai.query(username, tfquerystarttime.getText(), tfqueryendtime.getText())[0]);
+				System.out.print(1);
+				System.arraycopy((rmiai.query(username, tfquerystarttime.getText(), tfqueryendtime.getText())), 0, data, 0, define);
+				for(int i=0;i<define;i++){
+						System.out.println(data[i]+i);
+						//System.out.print(i);
+				}
+				//System.out.println("删除成功！！");
+				
+					for(int i=0;i<define;i++){
+						tfshowquery.append(data[i]+"\t");
+					
+				}tfshowquery.append("\n");
+			}catch(NotBoundException e){
+				e.printStackTrace();
+			}catch(MalformedURLException e){
+				e.printStackTrace();
+			}catch(RemoteException e){
+				e.printStackTrace();
+			}
+			/*Object[][] base=new Object[2][3];
+			base[0][0]=11;
+			base[0][1]="2010";
+			base[0][2]="2017";
+			base[1][0]=12;
+			base[1][1]="2001";
+			base[1][2]="2003";
+			JTable table =new JTable(base,title);
+			JScrollPane jsp =new JScrollPane(table);
+			getContentPane().add(jsp);
+			table.setPreferredScrollableViewportSize(new Dimension(500, 400));
+			getContentPane().add(jsp);
+			//panel2.setContentPane(table);
+			this.setVisible(true);*/
+			
+		}
+		
+	}
+
+}

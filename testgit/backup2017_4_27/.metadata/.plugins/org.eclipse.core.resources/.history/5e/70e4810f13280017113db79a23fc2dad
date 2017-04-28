@@ -1,0 +1,72 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+//import java.awt.event.AWTEventListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+
+public class Regist extends JFrame implements ActionListener {
+	Button button = new Button("确认注册");
+	JTextField tf=new JTextField(10);
+	JPasswordField jpw1 = new JPasswordField(10); 
+	JPasswordField jpw2 = new JPasswordField(10);
+	public Regist(){
+		super("会议室预约系统");
+		this.setBounds(400, 200, 400, 200);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBackground(java.awt.Color.white);
+		this.setLayout(new java.awt.FlowLayout());
+		Panel panel=new Panel();
+		this.add(panel);
+		panel.setLayout(new java.awt.GridLayout(4,2));
+		panel.add(new Label("用户名："));
+		panel.add(tf);
+		panel.add(new Label("密码："));
+		panel.add(jpw1);
+		panel.add(new Label("确认密码："));
+		panel.add(jpw2);
+		panel.add(new Label());
+		panel.add(button);
+		button.addActionListener(this);
+		//button.addActionListener(deal);
+		this.setVisible(true);
+	}
+	/*public static void main() {
+		// TODO Auto-generated method stub
+		new Regist();
+	}*/
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		if(event.getActionCommand()=="确认注册"){
+			System.out.println("click the confirm regist button");
+			System.out.println(jpw1.getPassword());
+			System.out.println(jpw2.getPassword());
+			System.out.println(jpw1.getPassword().equals(jpw2.getPassword()));
+			if(jpw1.getPassword().equals(jpw2.getPassword())){
+				try{
+					appointmentmeetinginterface rmiai=(appointmentmeetinginterface)
+							Naming.lookup("rmi://localhost:2048/Ram");
+					
+				//	String pws=String.valueOf(pw.getPassword());
+					if(	rmiai.regist(tf.getText(),String.valueOf(jpw1.getPassword())))
+					System.out.println("注册成功！");
+				}catch(NotBoundException e){
+					e.printStackTrace();
+				}catch(MalformedURLException e){
+					e.printStackTrace();
+				}catch(RemoteException e){
+					e.printStackTrace();
+				}
+			}else System.out.println("the twice passwords are not the same ");
+		}
+	}
+
+}

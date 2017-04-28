@@ -1,0 +1,26 @@
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+
+public class appointmentofmeetingroomclient {
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try{
+			appointmentmeetinginterface rmiai=(appointmentmeetinginterface)
+					Naming.lookup("rmi://localhost:2048/Ram");
+			System.out.println("°ó¶¨³É¹¦£¡");
+			if(rmiai.regist("777","78")==true) System.out.println("regist succeed!");
+	
+		}catch(NotBoundException e){
+			e.printStackTrace();
+		}catch(MalformedURLException e){
+			e.printStackTrace();
+		}catch(RemoteException e){
+			e.printStackTrace();
+		}
+	}
+
+}

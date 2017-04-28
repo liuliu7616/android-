@@ -1,0 +1,35 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+public class ClientFrame extends JFrame implements ActionListener{
+	//protected JApplet applet;
+	protected Panel panel; 
+	public ClientFrame(){
+		super("欢迎来到会议室预约系统");
+		this.setBounds(400, 200, 400, 500);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//	this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setBackground(java.awt.Color.white);
+		this.setLayout(new java.awt.FlowLayout());
+		Panel panel=new Panel();
+		this.add(panel);
+		panel.setLayout(new java.awt.GridLayout(3,2));
+		panel.add(new Label("		用户名："));
+		panel.add(new TextField());
+		panel.add(new Label("		密码："));
+		panel.add(new JPasswordField());
+		panel.add(new Button("注册"));
+		panel.add(new Button("登陆"));
+		this.setVisible(true);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	public static void main(String args[]){
+		new ClientFrame();
+	}
+}

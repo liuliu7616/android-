@@ -1,0 +1,35 @@
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+
+
+public class RegistSucceed extends JFrame implements ActionListener {
+	protected TextField text = new TextField("注册成功");
+	protected Button button = new Button("返回登陆");
+	public RegistSucceed(){
+		super("会议室预订系统");
+		this.setBounds(100, 100, 100, 50);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBackground(java.awt.Color.white);
+		this.setLayout(new java.awt.FlowLayout());
+		Panel panel = new Panel();
+		this.add(panel);
+		panel.setLayout(new java.awt.GridLayout(2,1));
+		panel.add(text);
+		panel.add(button);
+		button.addActionListener(this);
+	}
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		if(event.getActionCommand()=="返回登陆"){
+			new Login();
+		}
+	}
+
+}
